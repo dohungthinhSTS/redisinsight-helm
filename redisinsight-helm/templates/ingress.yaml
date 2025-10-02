@@ -1,25 +1,18 @@
-{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Release.Name }}-ui
   annotations:
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   rules:
-  {{- range .Values.ingress.hosts }}
-    - host: {{ .host }}
+    - host: {{ .Values.ingress.hosts[0].host }}
       http:
         paths:
-        {{- range .paths }}
-          - path: {{ .path }}
-            pathType: {{ .pathType }}
+          - path: {{ .Values.ingress.hosts[0].paths[0].path }}
+            pathType: {{ .Values.ingress.hosts[0].paths[0].pathType }}
             backend:
               service:
-                name: {{ $.Release.Name }}
+                name: {{ .Release.Name }}-ui
                 port:
-                  number: {{ $.Values.service.port }}
-        {{- end }}
-  {{- end }}
-{{- end }}
-
+                  name: http
