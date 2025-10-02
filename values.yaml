@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: redislabs/redisinsight
+  tag: "1.7.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8001
+
+persistence:
+  enabled: false
+  mountPath: /db
+
+resources: {}
+
+ingress:
+  enabled: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  hosts:
+    - host: redisinsight.dev.nereida.cloud
+      paths:
+        - path: /
+          pathType: Prefix
+
