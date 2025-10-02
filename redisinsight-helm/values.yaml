@@ -14,8 +14,6 @@ persistence:
   enabled: false
   mountPath: /db
 
-resources: {}
-
 ingress:
   enabled: true
   annotations:
