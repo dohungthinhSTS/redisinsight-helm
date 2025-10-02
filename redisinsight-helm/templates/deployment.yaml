@@ -24,7 +24,13 @@ spec:
           volumeMounts:
             - name: db
               mountPath: {{ .Values.persistence.mountPath }}
+          env:
+          - name: REDIS_URI
+            value: ""
+          - name: REDIS_URL
+            value: ""
       volumes:
         - name: db
           emptyDir: {}
+      
 
