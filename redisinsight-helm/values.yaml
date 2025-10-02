@@ -7,7 +7,7 @@ image:
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8001
   targetPort: 8001
 
 persistence:
@@ -19,7 +19,7 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
   hosts:
-    - host: redisinsight.dev.nereida.cloud
+    - host: redisinsight-dev.nereida.cloud
       paths:
         - path: /
           pathType: Prefix
