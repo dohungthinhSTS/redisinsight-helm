@@ -1,18 +1,24 @@
+{{- if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Release.Name }}-ui
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
   rules:
-    - host: redisinsight-dev.nereida.cloud
+  {{- range .Values.ingress.hosts }}
+    - host: {{ .host }}
       http:
         paths:
-          - path: /
-            pathType: Prefix
+        {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ .Release.Name }}-ui
+                name: {{ $.Release.Name }}-ui
                 port:
-                  number: 8001
+                  number: {{ $.Values.service.port }}
+        {{- end }}
+  {{- end }}
+{{- end }}
